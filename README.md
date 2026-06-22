@@ -2,47 +2,45 @@
 
 ## FREUID Development Toolkit
 
-Pacote auxiliar desenvolvido para facilitar o desenvolvimento, organização e experimentação de soluções para o **FREUID Challenge 2026 (IJCAI-ECAI)**.
+A helper package designed to facilitate the development, organization, and experimentation of solutions for the **FREUID Challenge 2026 (IJCAI-ECAI)**.
 
-O objetivo principal deste projeto é fornecer uma estrutura reutilizável para criação de notebooks de competição, reduzindo código repetitivo e permitindo uma abordagem mais organizada para treinamento, validação e submissão de modelos de Machine Learning e Deep Learning.
+The primary goal of this project is to provide a reusable framework for creating competition notebooks, reducing boilerplate code and enabling a more organized approach to training, validating, and submitting Machine Learning and Deep Learning models.
 
-O desafio FREUID aborda a detecção de fraudes em documentos de identidade, incluindo manipulações físicas, alterações geradas por modelos de IA e falsificações por captura/impressão, exigindo modelos robustos para generalização em diferentes cenários. :contentReference[oaicite:2]{index=2}
-
----
-
-## Objetivos
-
-Este pacote foi criado para auxiliar participantes durante o ciclo de desenvolvimento da solução:
-
-- Organização do pipeline experimental
-- Padronização do treinamento de modelos
-- Facilitação de testes e validações
-- Reutilização de componentes dentro de notebooks
-- Simplificação do processo de submissão
-- Separação entre lógica de competição e experimentação
+The FREUID challenge addresses fraud detection in identity documents—including physical manipulations, AI-generated alterations, and capture/print forgeries—requiring robust models capable of generalizing across different scenarios. :contentReference[oaicite:2]{index=2}
 
 ---
 
-## Principais funcionalidades
+## Objectives
+
+This package was created to assist participants throughout the solution development cycle:
+
+- Organizing the experimental pipeline
+- Standardizing model training
+- Facilitating testing and validation
+- Reusing components within notebooks
+- Simplifying the submission process
+- Separating competition logic from experimentation
+
+---
+
+## Key Features
 
 ### Dataset Management
 
-Ferramentas para:
+Tools for:
 
-- Carregamento dos dados
-- Organização de caminhos
-- Preparação de imagens
-- Criação de estruturas compatíveis com frameworks de Deep Learning
+- Data loading
+- Path organization
+- Image preparation
+- Creating structures compatible with Deep Learning frameworks
 
 ---
 
 ### Training Workflow
 
-Abstrações para facilitar:
+Abstractions to facilitate:
 
-- Treinamento de modelos
-- Controle de etapas do pipeline
-- Validação
-- Monitoramento de experimentos
-
-Exemplo de fluxo:
+- Model training
+- Pipeline stage control
+- Validation
+- Experiment monitoring
