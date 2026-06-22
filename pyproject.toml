@@ -1,0 +1,18 @@
+[project]
+name = "the-freuid-challenge-2026-ijcai-ecai"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Fernando Silvestre",email = "silvestre.fernando.sci@gmail.com"}
+]
+requires-python = ">=3.12"
+dependencies = [
+    "torch",
+    "torchvision",
+    "pillow",
+    "numpy"
+]
+
+[tool.package.find]
+where=['src']
+include=['*']
