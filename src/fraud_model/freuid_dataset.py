@@ -25,9 +25,8 @@ class FreuidDataset(Dataset):
         img_path = self.image_paths[index]
         label = 1 if self.labels[index] else 0
         img = Image.open(self.dataset_path + '/train/' + img_path).convert('RGB')
-        region_id = self._region_ids[self.regions[index]]
 
         if self.transform:
-            img = self.transform((img, region_id))
+            img = self.transform(img)
 
         return img, label

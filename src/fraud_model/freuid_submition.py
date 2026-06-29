@@ -3,10 +3,12 @@ import os
 from PIL import Image
 import torch
 from .region_detector import RegionDetector
+from .crop_fields import CropFields
 
 class FreuidSubmition:
     def __init__(self, filename):
         self._filename = filename
+        self.crop_fields = CropFields()
 
     def run(self, test_path, model, transform):
 
@@ -37,8 +39,9 @@ class FreuidSubmition:
                 img = Image.open(image_path).convert('RGB')
                 region = region_detector.detect(img)
                 regionid = regionids[region]
+                img = self.crop_fields((img, regionid))
 
-                x = transform((img, regionid))
+                x = transform(img)
                 x = x.unsqueeze(0).to(device)
 
                 output = model(x)

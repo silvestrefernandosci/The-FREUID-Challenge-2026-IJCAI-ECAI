@@ -16,15 +16,12 @@ class Workflow:
     _bacth_size: int = 16
     _epochs: int = 25
     _lr: float = 1e-3
-    _img_size: tuple[int,int] = (555, 327)
-    
 
     def __init__(self, dataset_path: str, dataset_size: float = 1.0):
         self._device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self._bacth_size = 16
         self._epochs = 25
         self._lr = 1e-4
-        self._img_size = (555, 327)
         self._dataset_path = dataset_path
         self._dataset_size = dataset_size        
 
@@ -59,8 +56,6 @@ class Workflow:
 
     def train(self, model):
         train_transforms = transforms.Compose([
-            CropFields(),
-            transforms.Resize(self._img_size),
             transforms.Grayscale(num_output_channels=1),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.5], std=[0.5])
