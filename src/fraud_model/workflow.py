@@ -18,7 +18,7 @@ class Workflow:
     _workers: int = 4
     _lr: float = 1e-3
 
-    def __init__(self, dataset_path: str, dataset_size: float = 1.0,  batch_size:int = 32,  num_workers=4):
+    def __init__(self, dataset_path: str, dataset_size: float = 1.0,  batch_size: int = 32,  num_workers=4):
         self._workers = num_workers
         self._device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self._bacth_size = batch_size
@@ -63,6 +63,9 @@ class Workflow:
             transforms.Normalize(mean=[0.5], std=[0.5])
         ])
 
+        self.state_transforms = train_transforms
+        self.state_model = model
+
         train_df, test_df = self.split()
 
         X_train, y_train = train_df
@@ -91,11 +94,11 @@ class Workflow:
         test_loader = DataLoader(test_dataset, batch_size=self._bacth_size,  num_workers=self._workers, shuffle=True)
 
         criterion = nn.CrossEntropyLoss()
-        optimizer = optim.Adam(model.parameters(), lr=self._lr)
+        optimizer = optim.Adam(self.state_model.parameters(), lr=self._lr)
 
         print("Start model train")
         for epoch in range(1, self._epochs + 1):
-            model.train()
+            self.state_model.train()
             train_loss = 0.0
 
             print(f"Epoch [{epoch}/{self._epochs}]")
@@ -106,7 +109,7 @@ class Workflow:
 
                 optimizer.zero_grad()
 
-                outputs = model(images)
+                outputs = self.state_model(images)
                 loss = criterion(outputs, labels)
 
                 loss.backward()
@@ -125,19 +128,20 @@ class Workflow:
 
         print("Starting validation")
 
+        self.state_model.eval()
+
         y_true = []
         y_pred = []
-
         with torch.no_grad():
             for images, labels in test_loader:
                 images = images.to(self._device)
                 labels = labels.to(self._device)
 
-                outputs = model(images)
+                outputs = self.state_model(images)
 
                 preds = outputs.argmax(dim=1)
                 
-                y_true.extend(labels.numpy())
+                y_true.extend(labels.cpu().numpy())
                 y_pred.extend(preds.cpu().numpy())
                 
                 correct += (preds == labels).sum().item()
@@ -152,10 +156,7 @@ class Workflow:
 
         print(classification_report(y_true, y_pred))
 
-        self.state_model = model
-        self.state_transforms = train_transforms
-
-        return model
+        return self.state_model
 
     def save(self, model, filename):
         torch.save(model.state_dict(), filename)
