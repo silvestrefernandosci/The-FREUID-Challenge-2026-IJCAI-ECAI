@@ -13,13 +13,15 @@ from .freuid_submition import FreuidSubmition
 
 class Workflow:
     device: str = 'cuda'
-    _bacth_size: int = 16
+    _bacth_size: int = 128
     _epochs: int = 25
+    _workers: int = 4
     _lr: float = 1e-3
 
-    def __init__(self, dataset_path: str, dataset_size: float = 1.0):
+    def __init__(self, dataset_path: str, dataset_size: float = 1.0,  batch_size:int = 32,  num_workers=4):
+        self._workers = num_workers
         self._device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self._bacth_size = 16
+        self._bacth_size = batch_size
         self._epochs = 25
         self._lr = 1e-4
         self._dataset_path = dataset_path
@@ -85,8 +87,8 @@ class Workflow:
             train_transforms
         )
 
-        train_loader = DataLoader(train_dataset, batch_size=self._bacth_size, shuffle=True)
-        test_loader = DataLoader(test_dataset, batch_size=self._bacth_size, shuffle=True)
+        train_loader = DataLoader(train_dataset, batch_size=self._bacth_size, num_workers=self._workers, shuffle=True)
+        test_loader = DataLoader(test_dataset, batch_size=self._bacth_size,  num_workers=self._workers, shuffle=True)
 
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adam(model.parameters(), lr=self._lr)

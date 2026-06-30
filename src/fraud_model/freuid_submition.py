@@ -31,15 +31,14 @@ class FreuidSubmition:
         }
 
         with torch.no_grad():
-
             for file in os.listdir(test_path):
-
                 image_path = os.path.join(test_path, file)
 
                 img = Image.open(image_path).convert('RGB')
                 region = region_detector.detect(img)
                 regionid = regionids[region]
                 img = self.crop_fields((img, regionid))
+                img.resize((278, 168))
 
                 x = transform(img)
                 x = x.unsqueeze(0).to(device)
